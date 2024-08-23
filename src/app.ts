@@ -16,6 +16,7 @@ import swaggerSpec from "./config/swaggerConfig";
 
 const app = express();
 
+
 app.use(bodyParser.json());
 
 app.use(headerSetter);
@@ -33,14 +34,6 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec)); ;
 app.use(limiter);
 
 modules(app);
-const logDirectory = path.join(__dirname, "logs");
-if (!fs.existsSync(logDirectory)) {
-    fs.mkdirSync(logDirectory);
-}
-const accessLogStream = fs.createWriteStream(
-  path.join(__dirname, "access.log"),{flags: 'a'}
-);
-app.use(morgan("combined", {stream: accessLogStream}));
 
 app.use(
   (error: CustomError, req: Request, res: Response, next: NextFunction) => {

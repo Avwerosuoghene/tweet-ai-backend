@@ -1,14 +1,21 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 import sequelize from '../db'; 
 
-class Comment extends Model {
+class Comments extends Model {
   public name!: string;
   public body!: string;
   public email!: string; 
   public postId!: number;
+  public id!: number;
+
 }
 
-Comment.init({
+Comments.init({
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
   name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -32,4 +39,4 @@ Comment.init({
 });
 
 
-export default Comment;
+export default Comments;

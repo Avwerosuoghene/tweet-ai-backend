@@ -3,6 +3,7 @@ import { IConfigurables } from "./types/models";
 
 import { Dialect, Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
+import logger from "../utils/logger";
 
 dotenv.config();
 
@@ -28,10 +29,10 @@ const sequelize = new Sequelize(
 export const connectDb = async (): Promise<Sequelize> => {
   try {
     await sequelize.authenticate();
-    console.log('SQL Database connected');
+    logger.info('SQL Database connected');
     return sequelize;
   } catch (err) {
-    console.error('Unable to connect to the database:', err);
+    logger.info('Unable to connect to the database:', err);
     process.exit(1);
   }
 };
@@ -39,9 +40,9 @@ export const connectDb = async (): Promise<Sequelize> => {
 export const syncDatabase = async (): Promise<void> => {
   try {
     await sequelize.sync(); 
-    console.log('Database & tables synchronized!');
+    logger.info('Database & tables synchronized!');
   } catch (err) {
-    console.error('Error syncing database:', err);
+    logger.error('Error syncing database:', err);
     process.exit(1);
   }
 };

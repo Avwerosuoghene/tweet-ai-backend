@@ -7,3 +7,13 @@ export const findAllAutobots = async () => {
 export const findAutobotById = async (id: number) => {
   return await Autobot.findByPk(id);
 };
+
+export const createAutobot = async (autobotData: {
+  name: string;
+  username: string;
+  email: string;
+  phone: string;
+  website: string;
+}) => {
+  return await Autobot.create(autobotData);
+};
