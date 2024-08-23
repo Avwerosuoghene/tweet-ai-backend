@@ -1,6 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../db'; 
-import Autobot from './autobot'; 
 
 class Post extends Model {
   public title!: string;
@@ -23,6 +22,5 @@ Post.init({
   timestamps: false,
 });
 
-Post.belongsTo(Autobot, { foreignKey: 'userId', as: 'autobot' });
 
 export default Post;

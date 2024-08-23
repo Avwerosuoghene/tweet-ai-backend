@@ -1,16 +1,16 @@
 import express, { Request, Response, NextFunction } from "express";
 import bodyParser from "body-parser";
-import session from "express-session";
 import path from "path";
 import morgan from "morgan";
 import fs from "fs";
+import { connectDb, syncDatabase, models} from "./database"; 
 
 
 
 import modules from "./modules/default";
 import headerSetter from "./middleware/setHeaders";
-import { connectDb } from "./database/db";
 import { CustomError } from "./database/types/handlers";
+
 
 
 
@@ -40,7 +40,18 @@ app.use(
   }
 );
 
-connectDb();
+async function initializeApp() {
+  try {
+    await connectDb(); 
+    await syncDatabase(); 
+  } catch (error) {
+    console.error('Error initializing app:', error);
+    process.exit(1);
+  }
+}
+
+initializeApp();
+
 
 
 export default app;

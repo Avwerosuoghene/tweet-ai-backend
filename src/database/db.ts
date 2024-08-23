@@ -36,5 +36,16 @@ export const connectDb = async (): Promise<Sequelize> => {
   }
 };
 
+export const syncDatabase = async (): Promise<void> => {
+  try {
+    await sequelize.sync(); 
+    console.log('Database & tables synchronized!');
+  } catch (err) {
+    console.error('Error syncing database:', err);
+    process.exit(1);
+  }
+};
+
+
 export default sequelize;
 
