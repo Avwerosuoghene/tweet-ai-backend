@@ -25,4 +25,4 @@ const models = {
   Comment
 };
 
-export { sequelize, models, syncDatabase, connectDb };
+export { sequelize, models, syncDatabase, connectDb, Autobot, Post, Comment };
