@@ -15,7 +15,11 @@ Post.init({
   body: {
     type: DataTypes.TEXT,
     allowNull: false,
-  }
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 }, {
   sequelize,
   tableName: 'Posts',

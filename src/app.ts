@@ -10,6 +10,7 @@ import swaggerUI from 'swagger-ui-express';
 import modules from "./services";
 import headerSetter from "./middleware/setHeaders";
 import { CustomError } from "./database/types/handlers";
+import swaggerSpec from "./config/swaggerConfig";
 
 
 
@@ -26,27 +27,8 @@ const limiter = rateLimit({
 });
 
 
-const options = {
-    definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Tweet AI API',
-      version: '1.0.0',
-      description: 'API documentation for the Tweet AI application',
-    },
-    servers: [
-      {
-        url: 'http://localhost:9000/', // Base URL for the API
-      },
-    ],
-  },
-  apis:['./services']
-};
 
-const swaggerSpec = swaggerJSDoc(options);
-console.log(swaggerSpec);
-
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec)); ;
 
 app.use(limiter);
 

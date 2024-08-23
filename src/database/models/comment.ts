@@ -4,6 +4,7 @@ import sequelize from '../db';
 class Comment extends Model {
   public name!: string;
   public body!: string;
+  public email!: string; 
   public postId!: number;
 }
 
@@ -18,6 +19,10 @@ Comment.init({
   },
   email: {
     type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  postId: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
 }, {

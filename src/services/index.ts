@@ -1,32 +1,15 @@
 import { Application, Router } from 'express';
-import autobotService from '../services/autobotService';
+import commentsService from './commentsService';
+import autobotService from './autobotService';
+import postsService from './postsService';
 
 const router = Router();
 const apiVersion = '/api/v1';
-
-/**
- * @openapi
- * /api/example:
- *   get:
- *     summary: Retrieve a list of examples
- *     responses:
- *       200:
- *         description: A list of examples
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: string
- */
 router.get('/autobots', autobotService.getAutobots);
-router.get('/autobots/:id/posts', autobotService.getAutobotPosts);
-router.get('/posts/:postId/comments', autobotService.getPostComments);
+router.get('/autobots/:id/posts', postsService.getAutobotPosts);
+router.get('/posts/:postId/comments', commentsService.getPostComments);
 
 export default (app: Application) => {
-
     app.use(apiVersion, router);
-
-    return app
-}
-
+    return app;
+};

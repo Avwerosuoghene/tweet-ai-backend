@@ -1,48 +1,28 @@
 import { Request, Response } from 'express';
-import { Autobot, Post, Comment } from '../database';
+import { findAllAutobots } from '../database/repositories/autobotRepository';
+import logger from '../utils/logger';
 
 const getAutobots = async (req: Request, res: Response) => {
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 10;
-  
-  const autobots = await Autobot.findAll({
-    limit,
-    offset: (page - 1) * limit,
-  });
 
-  res.json({ data: autobots });
+  logger.info(`Received request to fetch autobots: page=${page}, limit=${limit}`);
+
+
+  try {
+    const autobots = await findAllAutobots();
+    const paginatedAutobots = autobots.slice((page - 1) * limit, page * limit);
+    logger.info(`Successfully fetched autobots: count=${paginatedAutobots.length}`);
+
+    res.json({ data: paginatedAutobots });
+  } catch (error) {
+    logger.error(`Failed to fetch autobots: ${error}`, { error });
+
+    res.status(500).json({ message: 'Failed to fetch autobots', error });
+  }
 };
 
-const getAutobotPosts = async (req: Request, res: Response) => {
-  const autobotId = parseInt(req.params.id);
-  const page = parseInt(req.query.page as string) || 1;
-  const limit = parseInt(req.query.limit as string) || 10;
-  
-  const posts = await Post.findAll({
-    where: { userId: autobotId },
-    limit,
-    offset: (page - 1) * limit,
-  });
 
-  res.json({ data: posts });
-};
+export default {getAutobots}
 
-const getPostComments = async (req: Request, res: Response) => {
-  const postId = parseInt(req.params.postId);
-  const page = parseInt(req.query.page as string) || 1;
-  const limit = parseInt(req.query.limit as string) || 10;
-  
-  const comments = await Comment.findAll({
-    where: { postId },
-    limit,
-    offset: (page - 1) * limit,
-  });
 
-  res.json({ data: comments });
-};
-
-export default {
-  getAutobots,
-  getAutobotPosts,
-  getPostComments,
-};
