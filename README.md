@@ -41,12 +41,12 @@ The `tweet-ai` backend service is designed to manage Autobots, their posts, and 
     DATABASE_URL=your_database_url
     JWT_SECRET=your_jwt_secret
 
-    PORT_DEV=your_preferred_port
-    DB_NAME_DEV=your_db_name
-    DB_USER_DEV=your_db_user
-    DB_PASSWORD_DEV=your_db_pass
-    DB_HOST_DEV=your_db_host
-    DB_DIALECT_DEV=your_db_dialect
+    PORT_DEV=your_preferred_port e.g "4000"
+    DB_NAME_DEV=your_db_name e.g "tweet-ai"
+    DB_USER_DEV=your_db_user e.g "root"
+    DB_PASSWORD_DEV=your_db_pass e.g "db_password"
+    DB_HOST_DEV=your_db_host e.g "localhost"
+    DB_DIALECT_DEV=your_db_dialect e.g "mssql"
     ```
 
 4. **Run the application:**
