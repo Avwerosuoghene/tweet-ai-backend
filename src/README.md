@@ -23,7 +23,7 @@ The `tweet-ai` backend service is designed to manage Autobots, their posts, and 
 1. **Clone the repository:**
 
     ```bash
-    git clone https://github.com/yourusername/tweet-ai-backend.git
+    git clone https://github.com/Avwerosuoghene/tweet-ai-backend.git
     cd tweet-ai-backend
     ```
 
