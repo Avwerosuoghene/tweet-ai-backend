@@ -1,21 +1,21 @@
 import express, { Request, Response, NextFunction } from "express";
 import bodyParser from "body-parser";
-import path from "path";
-import morgan from "morgan";
-import fs from "fs";
 import { connectDb, syncDatabase, models} from "./database"; 
 import rateLimit from 'express-rate-limit';
-import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUI from 'swagger-ui-express';
 import modules from "./services";
 import headerSetter from "./middleware/setHeaders";
 import { CustomError } from "./database/types/handlers";
 import swaggerSpec from "./config/swaggerConfig";
+import http from 'http';
+import { setupSocketIO } from "./config/socketConfig";
 
 
 
 const app = express();
+const server = http.createServer(app);
 
+setupSocketIO(server);  
 
 app.use(bodyParser.json());
 
@@ -48,6 +48,7 @@ async function initializeApp() {
   try {
     await connectDb(); 
     await syncDatabase(); 
+   
   } catch (error) {
     console.error('Error initializing app:', error);
     process.exit(1);
@@ -58,4 +59,4 @@ initializeApp();
 
 
 
-export default app;
+export  {app, server};

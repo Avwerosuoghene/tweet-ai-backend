@@ -1,11 +1,12 @@
 import { Application, Router } from 'express';
 import commentsService from './commentsService';
-import autobotService from './autobotService';
+import autobotService, { getAutobotCount } from './autobotService';
 import postsService from './postsService';
 
 const router = Router();
 const apiVersion = '/api/v1';
 router.get('/autobots', autobotService.getAutobots);
+router.get('/autobots/count', getAutobotCount);
 router.get('/autobots/:id/posts', postsService.getAutobotPosts);
 router.get('/posts/:postId/comments', commentsService.getPostComments);
 

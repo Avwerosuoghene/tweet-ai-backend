@@ -17,3 +17,7 @@ export const createAutobot = async (autobotData: {
 }) => {
   return await Autobot.create(autobotData);
 };
+
+export const countAutobots = async () => {
+  return await Autobot.count(); 
+};

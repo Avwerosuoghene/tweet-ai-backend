@@ -218,3 +218,26 @@
  *       500:
  *         description: Internal server error
  */
+
+
+/**
+ * @swagger
+ * /autobots/count:
+ *   get:
+ *     summary: Retrieve the total number of Autobots
+ *     tags: [Autobots]
+ *     responses:
+ *       200:
+ *         description: The total number of Autobots
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 count:
+ *                   type: integer
+ *                   description: The number of Autobots
+ *                   example: 100
+ *       500:
+ *         description: Internal server error
+ */

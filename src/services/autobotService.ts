@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { findAllAutobots } from '../database/repositories/autobotRepository';
+import { countAutobots, findAllAutobots } from '../database/repositories/autobotRepository';
 import logger from '../utils/logger';
 
 const getAutobots = async (req: Request, res: Response) => {
@@ -22,9 +22,24 @@ const getAutobots = async (req: Request, res: Response) => {
   }
 };
 
+export const getAutobotCount = async (req: Request, res: Response) => {
+  try {
+    logger.info(`Received request to fetch autobots count`);
+
+    const count = await countAutobots();
+
+    logger.info(`Successfully fetched autobots count: count=${count}`);
+
+    res.json({ count });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch Autobots count' });
+  }
+};
 
 
 
-export default {getAutobots}
+
+
+export default {getAutobots, getAutobotCount}
 
 

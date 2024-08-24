@@ -1,11 +1,12 @@
 import axios from 'axios';
 
-import { createAutobot } from '../database/repositories/autobotRepository';
+import { countAutobots, createAutobot } from '../database/repositories/autobotRepository';
 import { createComment } from '../database/repositories/commentRepository';
 import { createPost } from '../database/repositories/postRepository';
 import logger from '../utils/logger';
 import { Autobot, Post } from '../database';
 import Comments from '../database/models/comment';
+import { getSocketIO } from '../config/socketConfig';
 
 const fetchDataFromPlaceholder = async (endpoint: string) => {
   const { data } = await axios.get(`https://jsonplaceholder.typicode.com/${endpoint}`);
@@ -33,7 +34,6 @@ const createAutobots = async () => {
         const posts = await fetchDataFromPlaceholder(`posts?userId=${autobot.id}`);
         logger.info(`Fetched posts for Autobot with ID ${autobot.id}`);
 
-        // Create posts concurrently
         await Promise.all(posts.slice(0, 10).map(async (post: Post) => {
           try {
             await createPost({
@@ -46,7 +46,6 @@ const createAutobots = async () => {
             const comments = await fetchDataFromPlaceholder(`comments?postId=${post.id}`);
             logger.info(`Fetched comments for Post ID ${post.id}`);
 
-            // Create comments concurrently
             await Promise.all(comments.slice(0, 10).map(async (comment: Comments) => {
               try {
                 await createComment({
@@ -70,6 +69,24 @@ const createAutobots = async () => {
     }));
 
     logger.info('Completed creating Autobots, Posts, and Comments');
+
+    const io = getSocketIO();
+
+
+    if (io) {
+      const autobotCount = await countAutobots();
+
+      io.emit('autobotCount', {
+        message: `${autobotCount} autobots sent`,
+        autobotCount: autobotCount,
+      });
+      logger.info(`Autobot count emitted to user ${autobotCount}`);
+
+    } else {
+      logger.error('Socket.IO instance not found');
+    }
+
+
   } catch (error) {
     logger.error('Error in createAutobots function:', error);
   }
