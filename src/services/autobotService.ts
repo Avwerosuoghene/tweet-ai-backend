@@ -37,9 +37,6 @@ export const getAutobotCount = async (req: Request, res: Response) => {
 };
 
 
-
-
-
 export default {getAutobots, getAutobotCount}
 
 
